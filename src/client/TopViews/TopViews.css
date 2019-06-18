@@ -1,0 +1,65 @@
+
+/*	Filters/Header Styles 	*/
+
+h2.c-top-view-title {
+	padding-top: 1em;
+}
+div.c-top-view-header {
+	padding-bottom: 1.25em;
+}
+
+.c-top-view-header div.c-filter {
+
+}
+
+.c-top-view-header h4.c-filter-label {
+
+}
+
+
+/*	Card Styles 	*/
+.c-flippy-front {
+	background-color: #2A5775;
+	color: white;
+	border-radius: 25px;
+}
+.c-flippy-back { 
+	background-color: #1C394D;
+	color: white;
+	border-radius: 25px;
+}
+
+.c-flippy-header {
+	text-align: "left";
+}
+
+
+/*  Thumbnail Adjustments  */
+@media (max-width: 1500px) {
+  img.img-fluid {
+    height: 100%;
+    width: 100% 
+  }
+} 
+@media (min-width: 1500px) {
+  img.img-fluid {
+    height: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  }
+} 
+
+/*  Carousel Adjustments  */
+
+div.slider-control-bottomcenter {
+  bottom: -10% !important;
+}
+
+div.slider-control-centerright {
+  right:1em !important;
+}
+
+
+div.slider-control-centerleft {
+  left:1em !important;
+}

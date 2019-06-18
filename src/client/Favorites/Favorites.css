@@ -1,0 +1,12 @@
+
+
+.c-favorites-header {
+	padding-top: 1em;
+
+}
+
+div.c-favorites-thumbnail {
+	height: auto; 
+	width: 300px;
+	left: 10%;
+}
