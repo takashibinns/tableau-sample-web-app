@@ -1,0 +1,30 @@
+
+img.c-header-image {
+  	width:30px;
+  	height:30px;
+}
+
+.navbar {
+    background-color: rgba(0,0,0,.3)
+}
+.nav-link.active {
+	font-weight: 400;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color:#1C2331
+    }
+}
+
+#basic-navbar-nav.show {
+  background: #2BC0E4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #EAECC6, #2BC0E4);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #EAECC6, #2BC0E4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+/*  User Dropdown */
+.navbar-collapse a.nav-link {
+  color: black;
+}

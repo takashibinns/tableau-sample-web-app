@@ -1,0 +1,19 @@
+
+
+.c-landing-page-list {
+	text-align: left;
+	list-style: none;
+	margin-left: 1em;
+}
+.c-landing-page-filters{
+	float: left;
+}
+.c-landing-page-thumbnail {
+	height: 200px;
+	width: 200px;
+	cursor: pointer;
+}
+
+.c-landing-page-view-title {
+	cursor: pointer;
+}
