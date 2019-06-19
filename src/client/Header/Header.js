@@ -8,6 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { tabLogout, tabDateFormatter } from '.././tableau';
+import Logo from '../../../public/logo.png';
 import './Header.css';
 
 //  Define the Header component
@@ -118,7 +119,7 @@ export default class Header extends Component {
       <Navbar expand="lg" fixed="top" className="navbar scolling-navbar">
         <div className="container">
   		    <Navbar.Brand href="#home">
-  		      <img src="/public/logo.png" className="d-inline-block align-top c-header-image"/>
+  		      <img src={Logo} className="d-inline-block align-top c-header-image"/>
   		      {this.props.tableauSettings.appName}
   		    </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

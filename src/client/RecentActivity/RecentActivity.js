@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots, faChartLine } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import { tabGetUsageData } from '.././tableau';
+import LoadingImage from '../../../public/loading.svg';
 import './RecentActivity.css';
 
 //	Define constants for this component
 const headerDivId = 'c-activity-title';
-const loadingImage = "/public/loading.svg";
 
 //	Function to check and see if an object is empty
 function objectIsEmpty(obj){
@@ -164,7 +164,7 @@ export default class RecentActivity extends Component {
 		} else {
 
 			//	Show a loading window
-			content = <img src={loadingImage} className="c-activity-loading"></img>	
+			content = <img src={LoadingImage} className="c-activity-loading"></img>	
 		}
 
 		//	Main render return

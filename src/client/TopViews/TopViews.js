@@ -11,10 +11,10 @@ import Form from 'react-bootstrap/Form';
 import makeAnimated from 'react-select/lib/animated';
 import axios from 'axios';
 import { tabGetViewThumbnails, tabGetViewData, tabDateFormatter } from '.././tableau';
+import LoadingImage from '../../../public/loading.svg';
 import './TopViews.css';
 
 //	Define constants for this page
-const loadingImage = "/public/loading.gif";
 const dashboardsOnlyId = "filter-dashboards-only";
 const tableauImageClass = "tableau-img";	//	TODO: still hardcoded within className
 const topCount = 12;
@@ -251,7 +251,7 @@ export default class TopViews extends Component {
 		var slides = topViews.map((view,key) => {
 
 			//	Check to see if we've already loaded the thumbnail
-			var initialImage = view.data.thumbnail ? view.data.thumbnail : loadingImage;
+			var initialImage = view.data.thumbnail ? view.data.thumbnail : LoadingImage;
 
 			//	Create a card for each view
 		    return <div key={key}>

@@ -6,11 +6,11 @@ import { faFileImage, faFilePdf, faFileExcel } from '@fortawesome/free-solid-svg
 import axios from 'axios';
 import { ResponsiveSankey } from '@nivo/sankey'
 import { tabGetUsageData } from '.././tableau';
+import LoadingImage from '../../../public/loading.svg';
 import './PeerUsage.css';
 
 //	Define constants for this component
 const headerDivId = 'c-peer-title';
-const loadingImage = "/public/loading.svg";
 
 //	Function to check and see if an object is empty
 function objectIsEmpty(obj){
@@ -248,7 +248,7 @@ export default class PeerUsage extends Component {
 		} else {
 
 			//	Show a loading window
-			content = <img src={loadingImage} className="c-peers-loading"></img>	
+			content = <img src={LoadingImage} className="c-peers-loading"></img>	
 		}
 
 		//	Main render return
