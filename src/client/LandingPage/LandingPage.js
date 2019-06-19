@@ -4,9 +4,10 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { SpringGrid, CSSGrid, measureItems, makeResponsive } from 'react-stonecutter';
 import { tabGetViewThumbnails, tabDateFormatter } from '.././tableau';
+import LoadingImage from '../../../public/loading-background.svg';
 import './LandingPage.css';
 
-const loadingImage = "/public/loading.gif";
+
 const tableauImageClass = "tableau-img";	//	TODO: still hardcoded within className
 const dashboardsOnlyId = 'landing-page-dashboard-only-filter';
 
@@ -107,7 +108,7 @@ export default class LandingPage extends Component {
 		const views = landingPageViews.map((view, index) => {
 
 			//	Check to see if the thumbnail has been loaded
-			var imageUrl = view.data.thumbnail ? view.data.thumbnail : loadingImage;
+			var imageUrl = view.data.thumbnail ? view.data.thumbnail : LoadingImage;
 
 			//	Return the image html
 			return <li key={index} className='c-landing-page-list'>

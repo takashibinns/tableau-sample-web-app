@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { tabGetViewThumbnails, tabDateFormatter } from '.././tableau';
+import LoadingImage from '../../../public/loading-background.svg';
 import './Favorites.css';
 
-const loadingImage = "/public/loading.gif";
 const tableauImageClass = "tableau-img";	//	TODO: still hardcoded within className
 
 export default class Favorites extends Component {
@@ -70,7 +70,7 @@ export default class Favorites extends Component {
 		function thumbnail(view,index,clickHandler){
 
 			//	Decide what image to use for the given view
-			var initialImage = view.data.thumbnail ? view.data.thumbnail : loadingImage;
+			var initialImage = view.data.thumbnail ? view.data.thumbnail : LoadingImage;
 
 			return <div className="col-lg-5">
 				      <div className="view overlay rounded z-depth-2 mb-lg-0 mb-4 c-favorites-thumbnail">
