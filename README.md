@@ -66,7 +66,7 @@ yarn build (or npm run build)
 # Start production server
 yarn start (or npm start)
 ```
-
+ 
 # Overview
 This is a full stack web app built using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
 
