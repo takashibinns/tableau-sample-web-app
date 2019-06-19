@@ -2,13 +2,19 @@
 This project contains an example of what a modern web application or portal can look like, when integrating with Tableau Server.  It leverages the Tableau REST API to authenticate & fetch data, and allows users to view dashboards embedding right in the app.  This project is based on the [simple-react-full-stack](https://github.com/crsandeep/simple-react-full-stack) project by [Sandeep Raveesh](https://github.com/crsandeep).  His project was used as a starting point, and the tableau specific content was added on top.
 
 # Quickstart
+## Download this repository
 ```
 # Clone the repository
 git clone https://github.com/takashibinns/tableau-sample-web-app
 
 # Go inside the directory
 cd tableau-sample-web-app
+```
+## Configure your settings
+Open the src/server/config.js file and change the properties to match your server.  The most important thing is to change the *server* and admin user/password.  This will make sure the app is leveraging your Tableau Server, instead of the demo Tableau Server.
 
+## Start the application
+```
 # Install dependencies
 yarn (or npm install)
 
