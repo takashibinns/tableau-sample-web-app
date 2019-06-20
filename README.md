@@ -48,11 +48,7 @@ const config = {
 ```
 
 ## Publish the ServerUsage workbook
-<<<<<<< HEAD
 In order to get a user's usage data, a Tableau Workbook was created that makes queries against your Tableau Server's Postgres Repository.  Open the included workbook and change the connection settings to point to your Tableau Server.  This is similar to how the admin views work within Tableau Server.  You can find help getting this setup, by following the instructions [here](https://onlinehelp.tableau.com/current/server/en-us/perf_collect_server_repo.htm).  When you publish this workbook make sure it's available to the *adminUser*.  When this application loads it makes an API call to query for the data within this workbook, and those API calls are made under the context of the *adminUser*.  To ensure security, the logged in user's id and the site id are passed as a filter parameters in the API call.  
-=======
-In order to get a user's usage data, a Tableau Workbook was created that makes queries against your Tableau Server's Postgres Repository.  Open the included workbook and change the connection settings to point to your Tableau Server.  This is similar to how the admin views work within Tableau Server.  You can find help getting this setup, by following the instructions [here](https://onlinehelp.tableau.com/current/server/en-us/perf_collect_server_repo.htm).  When you publish this workbook make sure it's available to all users.  When this application loads it makes an API call to query for the data within this workbook, and those API calls are made under the context of the logged in user.  
->>>>>>> 95739a06883036745fc06ca8e52b04e5414b96cf
 
 Please note that the custom sql provided in this workbook was developed using Tableau Server 2019.2, and different versions of Tableau Server may have slightly different schemas.  If your workbook gives you a sql error, you may need to adjust the custom sql (found at server-usage/repository.sql) and replace the workbook's data source. 
 
