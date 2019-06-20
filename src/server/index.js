@@ -53,22 +53,22 @@ app.get('/api/tableau/ticket', (req, res) => {
 	var decrypt = CryptoJS.AES.decrypt(bytes, tableauConfig.private.cryptoKey);
 	var username = decrypt.toString(CryptoJS.enc.Utf8);
 	
+	//	Define the login payload
+	const payload = {
+		'username': username,
+		'target_site': tableauConfig.public.site,
+	}
 	
 	//	Define the api call's configuration
 	const options = {
 		'method': 'POST',
 		'url': tableauConfig.public.server + '/trusted',
 		'headers': {
-			'Content-Type':'application/json',
+			'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8',
 			'Accept':'application/json'
 		},
-		'data': {
-			'username': username,
-			'target_site': tableauConfig.public.site,
-			'client_ip': '172.31.3.11'
-		}
+		'data': querystring.stringify(payload)
 	}
-	//console.log(options)
 
 	//	Make the api call to tableau server
 	axios(options).then( response => {
