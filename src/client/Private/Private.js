@@ -24,6 +24,7 @@ export default class Private extends Component {
 			tableauSession: this.props.tableauSession,
 			tableauSettings: this.props.tableauSettings,
 			activePage: this.props.activePage,
+			lastPage: this.props.lastPage,
 			embeddedViewId: this.props.embeddedViewId,
 			embeddedView: null,
 			views: [],
@@ -36,6 +37,7 @@ export default class Private extends Component {
 
 		//	Bind several functions to this component
 		this.handleViewUpdates = this.handleViewUpdates.bind(this);
+		this.handlePageChange = this.handlePageChange.bind(this);
 		this.handleOpenView = this.handleOpenView.bind(this);
 		this.handleUsageUpdate = this.handleUsageUpdate.bind(this);
 
@@ -60,6 +62,10 @@ export default class Private extends Component {
 		    })
 			console.log('Error: View ' + viewId + ' not found.')
 		}
+	}
+
+	handlePageChange(newPage){
+		this.props.onPageChange(newPage)
 	}
 
 	//	1+ views were updated with additional information, update the state
@@ -166,7 +172,9 @@ export default class Private extends Component {
 				break;
 			case 'view':
 				page = <View tableauSession={this.state.tableauSession} tableauSettings={this.state.tableauSettings}
-							view={this.state.embeddedView} tableauJs={this.props.tableauJs}>
+							view={this.state.embeddedView} lastPage={this.props.lastPage} 
+							onPageChange={this.handlePageChange} usagedata={this.state.usageData}
+							onUsageUpdated={this.handleUsageUpdate} tableauJs={this.props.tableauJs}>
 					   </View>
 				break;
 		}
