@@ -1,6 +1,14 @@
 
 .c-view-header {
 	padding-top: 1em;
-	margin-top: 48px;
-	margin-bottom: 48px
+}
+
+.c-view-toolbar {
+	padding-top: 1.5em;
+    margin-left: 3em;
+}
+
+.c-view-toolbar svg {
+	margin-left: 0.5em;
+	cursor: pointer;
 }

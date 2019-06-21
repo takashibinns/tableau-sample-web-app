@@ -114,7 +114,7 @@ export const tabLogin = (settings, email, password) => {
 		//	Show a login failed popup
 		toast.error("Login Failed, please try again.", {
 	        position: toast.POSITION.TOP_RIGHT
-	      })
+	    })
 
 		//	Return the error message
 		return {

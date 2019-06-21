@@ -75,6 +75,7 @@ export default class App extends Component {
       'tableauSession': {},
       'tableauJs': null,
       'activePage': nav.page.length==0 ? navigation.links[0].key : nav.page,
+      'lastPage': '',
       'embeddedViewId': nav.viewId,
     }
 
@@ -99,8 +100,14 @@ export default class App extends Component {
 
   //  Handle navigation
   handlePageChange(newPage,viewId){
+
+    //  Get the last page or default to the home page
+    const page = (newPage.length>0) ? newPage : navigation.links[0].key;
+
+    //  Update the state
     this.setState({
-      'activePage': newPage,
+      'activePage': page,
+      'lastPage': this.state.activePage,
       'embeddedViewId': viewId
     })
   }
@@ -163,6 +170,7 @@ export default class App extends Component {
       content = <Private tableauSettings={this.state.tableauSettings} 
                          tableauSession={this.state.tableauSession} 
                          activePage={this.state.activePage}
+                         lastPage={this.state.lastPage}
                          tableauJs={this.state.tableauJs}
                          embeddedViewId={this.state.embeddedViewId}
                          onPageChange={this.handlePageChange}>

@@ -136,11 +136,11 @@ export default class LandingPage extends Component {
 		//	Main render return
 		return (
 			<section className="my-5">
-			  <h2 className="h1-responsive font-weight-bold text-center my-5 c-favorites-header">Home</h2>
+			  <h2 className="h1-responsive font-weight-bold text-center my-5 c-favorites-header">Welcome to {this.props.tableauSettings.appName}</h2>
 			  <Container>
 			  	<Row>
 			  		<Col>
-			  			<p className="text-right w-responsive mx-auto mb-5">Welcome to the portal's landing page!</p>
+			  			<p className="text-right w-responsive mx-auto mb-5">Below are all the views from the <b>{this.props.tableauSettings.landingPageProject}</b> project on the Tableau Server</p>
 		  			</Col>
 			  		<Col>
 			  			<Form className="c-landing-page-filters" size='lg' onChange={this.handleTypeSelections}>
