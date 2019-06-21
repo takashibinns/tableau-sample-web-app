@@ -81,50 +81,32 @@ export const tabLogin = (settings, email, password) => {
 		var now = (new Date()).getTime()/1000|0,
 			expiration = now + (settings.apiTokenExpiration*60);
 
-		//	Make a second API call to get information about this user
-		var url = settings.server + '/api/' + settings.apiVersion + '/sites/' + response1.data.credentials.site.id + '/users/' + response1.data.credentials.user.id;
-
-		//	Create the header object
-		var myHeaders = Object.assign({},headers);
-		myHeaders[tokenName] = response1.data.credentials.token;
-
-		//	Define the api call's options
 		var options = {
 			'method':'GET',
-			'headers': myHeaders,
-			'url': url
+			'url': '/api/tableau/login?user=' + email
 		}
 
-		//	Make another API call to get more info about the logged in user
-		return axios(options).then( response2 => {
+		//	Make one last API call to this web app, in order to get a trusted key (used for SSO)
+		return axios(options).then( response3 => {
 
-			var options = {
-				'method':'GET',
-				'url': '/api/tableau/login?user=' + email
+			//	Return the authentication payload
+			return {
+				'apiKey': response1.data.credentials.token,
+				'apiExpiration': expiration,
+				'user': {
+					'id': response1.data.credentials.user.id,
+					'email': email,
+					'name': email,
+					'lastLogin': '',
+					'role': '',
+					'trusted': response3.data.trusted,
+				},
+				'site': {
+					'id': response1.data.credentials.site.id,
+					'name': response1.data.credentials.site.contentUrl
+				}
 			}
 
-			//	Make one last API call to this web app, in order to get a trusted key (used for SSO)
-			return axios(options).then( response3 => {
-
-				//	Return the authentication payload
-				return {
-					'apiKey': response1.data.credentials.token,
-					'apiExpiration': expiration,
-					'user': {
-						'id': response1.data.credentials.user.id,
-						'email': email,
-						'name': response2.data.user.fullName,
-						'lastLogin': response2.data.user.lastLogin,
-						'role': response2.data.user.siteRole,
-						'trusted': response3.data.trusted,
-					},
-					'site': {
-						'id': response1.data.credentials.site.id,
-						'name': response1.data.credentials.site.contentUrl
-					}
-			}
-
-			})
 		})
 		
 	}).catch( error => {
