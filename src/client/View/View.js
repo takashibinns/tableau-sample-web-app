@@ -1,6 +1,7 @@
 //	Import Dependencies
 import React, { Component } from 'react';
 import axios from 'axios';
+import ViewDenied from './ViewDenied';
 import { tabGetTicket, tabGetViewThumbnails } from '.././tableau';
 
 //	Define some constants for this component
@@ -99,7 +100,7 @@ export default class View extends Component {
 		var thisComponent = this;
 
 		//	Make sure there's a view passed to this component
-		if (view) {
+		if (view && !view.error) {
 
 			//	Find the container to render into
 			var containerDiv = document.getElementById(containerId),
@@ -205,12 +206,13 @@ export default class View extends Component {
 	render() {
 
 		//	Define placeholder object for the view (since it won't be passed until the API calls have completed)
-		const view = this.props.view ? this.props.view : {}
+		const view = this.props.view ? this.props.view : {};
 
 		//	Main render return
 		return (
 			<section className="my-5">
 			  <h2 id={headerId} className="h1-responsive font-weight-bold text-center c-view-header">{view.name}</h2>
+			  <ViewDenied error={view.error}></ViewDenied>
 			  <div id={containerId}></div>
 			</section>
 		)

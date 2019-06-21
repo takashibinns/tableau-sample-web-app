@@ -1,5 +1,6 @@
 //	Import dependencies
 import React, { Component } from 'react';
+import { toast } from 'react-toastify';
 import { tabGetViews } from '.././tableau';
 import './Private.css';
 
@@ -43,7 +44,7 @@ export default class Private extends Component {
 	}
 
 	//	User clicked a button to open a view, set the state
-	handleOpenView(viewId) {
+	handleOpenView(viewId, viewName) {
 
 		//	Check to make sure this view exists (and this user has access to it)
 		var embedView = this.state.views.find( view => { return view.id===viewId; });
@@ -52,7 +53,11 @@ export default class Private extends Component {
 			this.props.onPageChange('view',embedView.id)
 			this.setState({'embeddedView': embedView})
 		} else {
-			//	Display error message
+			//	Display error message (also in console)
+			const message = "Sorry you don't have access to view " + viewName + ".  Please contact your administrator for access";
+			toast.error(message, {
+		        position: toast.POSITION.TOP_RIGHT
+		    })
 			console.log('Error: View ' + viewId + ' not found.')
 		}
 	}
@@ -106,6 +111,9 @@ export default class Private extends Component {
 					console.log('Login Error')
 				} else {
 
+					//	Double check the embedded view
+					var embedView = response.views.find( view => { return view.id === thisComponent.state.embeddedViewId; });
+
 					//	Update the local state, with the list of all and favorite views
 					thisComponent.setState({
 						'views': response.views,
@@ -113,7 +121,7 @@ export default class Private extends Component {
 						'owners': response.owners,
 						'landingPageViews': response.views.filter( view => { return view.onLandingPage; }),
 						'favorites': response.views.filter( view => { return view.favorite; }),
-						'embeddedView': response.views.find( view => { return view.id === thisComponent.state.embeddedViewId; }),
+						'embeddedView': embedView ? embedView : { 'error': 'You do not have access to this view'},
 					})
 					
 				}	

@@ -69,8 +69,11 @@ export default class TopViews extends Component {
 		//	Determine the view id
 		var viewId = event.target.getAttribute('rel');
 
+		//	Find this view
+		var view = this.props.allViews.find( view => { return view.id === viewId; })
+
 		//	Notify parent of the view to embed
-		this.props.onOpenView(viewId);
+		this.props.onOpenView(viewId, view.name);
 	}
 
 	//	Handle file downloads
