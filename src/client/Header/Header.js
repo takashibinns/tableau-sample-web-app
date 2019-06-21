@@ -106,8 +106,10 @@ export default class Header extends Component {
                         {user.name}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
+                        {/*
                         <Dropdown.Item disabled={true}><strong>Role</strong>: {user.role}</Dropdown.Item>
                         <Dropdown.Item disabled={true}><strong>Last Login</strong>: { tabDateFormatter(user.lastLogin) }</Dropdown.Item>
+                        */}
                         <Dropdown.Item onClick={this.handleLogout}><strong>Log Out</strong></Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
