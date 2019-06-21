@@ -55,10 +55,11 @@ export default class RecentActivity extends Component {
 	handleOpenView(event) {
 		
 		//	Only run if a user clicked on a view node
-		var viewId = event.target.getAttribute('rel');
+		var viewId = event.target.getAttribute('rel'),
+			viewName = event.target.innerText;
 
 		//	Notify parent of the view to embed
-		this.props.onOpenView(viewId.toLowerCase());
+		this.props.onOpenView(viewId.toLowerCase(), viewName);
 		
 	}
 	
@@ -77,9 +78,11 @@ export default class RecentActivity extends Component {
 
 			//	Define a function to sort the activity in descending order
 			const comparison = (a,b) => {
-				if (a.Date > b.Date) {
+				const aDate = new Date(a.Date),
+					  bDate = new Date(b.Date);
+				if (aDate> bDate) {
 					return -1
-				} else if (a.Date < b.Date) {
+				} else if (aDate < bDate) {
 					return 1;
 				} else {
 					return 0

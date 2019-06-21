@@ -61,7 +61,7 @@ export default class PeerUsage extends Component {
 			window.location.hash = "#view/" + event.id.toLowerCase();
 
 			//	Notify parent of the view to embed
-			this.props.onOpenView(event.id.toLowerCase());
+			this.props.onOpenView(event.id.toLowerCase(), event.label);
 		}
 	}
 

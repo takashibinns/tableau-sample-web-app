@@ -28,8 +28,11 @@ export default class Favorites extends Component {
 		//	Determine the view id
 		var viewId = event.target.getAttribute('rel');
 
+		//	Look for the view object
+		var view = this.props.favorites.find( view => { return view.id === viewId; })
+
 		//	Notify parent of the view to embed
-		this.props.onOpenView(viewId);
+		this.props.onOpenView(viewId, view.name);
 	}
 
 	render() {
