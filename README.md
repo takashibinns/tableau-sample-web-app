@@ -53,6 +53,8 @@ In order to get a user's usage data, a Tableau Workbook was created that makes q
 Please note that the custom sql provided in this workbook was developed using Tableau Server 2019.2, and different versions of Tableau Server may have slightly different schemas.  If your workbook gives you a sql error, you may need to adjust the custom sql (found at server-usage/repository.sql) and replace the workbook's data source. 
 
 ## Start the application
+This project uses yarn as the dependency manager, to install yarn on your system follow the instructions [here](https://yarnpkg.com/lang/en/docs/install/).
+
 ```
 # Install dependencies
 yarn (or npm install)
