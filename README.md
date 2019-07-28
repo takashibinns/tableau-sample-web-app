@@ -1,73 +1,8 @@
 # Sample web app for Tableau Server
 This project contains an example of what a modern web application or portal can look like, when integrating with Tableau Server.  It leverages the Tableau REST API to authenticate & fetch data, and allows users to view dashboards embedding right in the app.  This project is based on the [simple-react-full-stack](https://github.com/crsandeep/simple-react-full-stack) project by [Sandeep Raveesh](https://github.com/crsandeep).  His project was used as a starting point, and the tableau specific content was added on top.
 
-# Quickstart
-## Download this repository
-```
-# Clone the repository
-git clone https://github.com/takashibinns/tableau-sample-web-app
-
-# Go inside the directory
-cd tableau-sample-web-app
-```
-## Configure your settings
-Open the src/server/config.js file and change the properties to match your server.  The most important thing is to change the *server* and admin user/password settings.  This will make sure the app is leveraging your Tableau Server.
-
-```
-const config = {
-  //  This section of config settings is shared client side (browser)
-  'public': {
-    //  What is the URL of your Tableau Server? This should include protocol (http:// or https//) and port (if not 80 or 443)
-    'server': 'https://my-tableau-server',
-    //  What is the name of the site should we authenticate to? leave blank for the default site
-    'site': '',
-    //  What version of the REST API should we use?
-    'apiVersion': '3.1',
-    //  How many seconds until an authentication token is expired? default setting on TS is 240 minutes
-    'apiTokenExpiration': 240,
-    //  Should this application provide SSO for embedded views? set to false if you have already setup SSO on your tableau server
-    'useTrustedTicketSSO': false,
-    //  Title of this web application
-    'appName': 'My Healthcare Portal',
-    //  Landing Page project
-    'landingPageProject': 'Population Health Analytics',
-    //  How long does your Tableau Repository retain data (183 days by default)
-    'eventDataDurationLabel' : '6 months'
-  },
-  //  This section of config settings never leaves the server
-  'private': {
-    //  Encryption key (server side only, you can change this to any string value)
-    'cryptoKey': 'MySecureKey',
-    //  Tableau Server Admin Credentials (used to fetch data from published workbooks)
-    'adminUser': '<some-admin-user>',
-    'adminPassword': '<admin-user-password>',
-    //  Name of the workbook, that contains server data (recently viewed content, peer groups, comments, etc)
-    'adminWorkbook':'ServerUsage',
-  }
-}
-```
-
-## Publish the ServerUsage workbook
-In order to get a user's usage data, a Tableau Workbook was created that makes queries against your Tableau Server's Postgres Repository.  Open the included workbook and change the connection settings to point to your Tableau Server.  This is similar to how the admin views work within Tableau Server.  You can find help getting this setup, by following the instructions [here](https://onlinehelp.tableau.com/current/server/en-us/perf_collect_server_repo.htm).  When you publish this workbook make sure it's available to the *adminUser*.  When this application loads it makes an API call to query for the data within this workbook, and those API calls are made under the context of the *adminUser*.  To ensure security, the logged in user's id and the site id are passed as a filter parameters in the API call.  
-
-Please note that the custom sql provided in this workbook was developed using Tableau Server 2019.2, and different versions of Tableau Server may have slightly different schemas.  If your workbook gives you a sql error, you may need to adjust the custom sql (found at server-usage/repository.sql) and replace the workbook's data source. 
-
-## Start the application
-This project uses yarn as the dependency manager, to install yarn on your system follow the instructions [here](https://yarnpkg.com/lang/en/docs/install/).
-
-```
-# Install dependencies
-yarn (or npm install)
-
-# Start development server
-yarn dev (or npm run dev)
-
-# Build for production
-yarn build (or npm run build)
-
-# Start production server
-yarn start (or npm start)
-```
+# Installation / Setup
+Follow the instructions on [this page](https://github.com/takashibinns/tableau-sample-web-app/blob/master/setup.md) in order to get the application installed and configured.
  
 # Overview
 This is a full stack web app built using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
