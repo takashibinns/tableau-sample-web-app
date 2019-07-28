@@ -1,6 +1,8 @@
 # Sample web app for Tableau Server
 This project contains an example of what a modern web application or portal can look like, when integrating with Tableau Server.  It leverages the Tableau REST API to authenticate & fetch data, and allows users to view dashboards embedding right in the app.  This project is based on the [simple-react-full-stack](https://github.com/crsandeep/simple-react-full-stack) project by [Sandeep Raveesh](https://github.com/crsandeep).  His project was used as a starting point, and the tableau specific content was added on top.
 
+An important thing to note, is that this web app leverages your Tableau Server's Postgres Repository to access usage information.  Since direct access to the repository is not allowed for Tableau Online, this web app will not work if you are using Tableau Online.
+
 # Installation / Setup
 Follow the instructions on [this page](https://github.com/takashibinns/tableau-sample-web-app/blob/master/setup.md) in order to get the application installed and configured.
  
@@ -14,6 +16,8 @@ In the development mode, we will have 2 servers running. The front end code will
 In the production mode, we will have only 1 server running. All the client side code will be bundled into static files using webpack and it will be served by the Node.js/Express application.
 
 ## Folder Structure
+- *server-usage*: the Tableau workbook, for monitoring usage on your Tableau Server
+- *screenshots*: Images used for this readme
 - *public*: contains static files such as images, icons, and the root html page.
 - *src*: where all the source code for this project lives
   - *server*: contains all server side code, which manages the app's rest api handlers and server side api calls
