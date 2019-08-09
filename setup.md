@@ -83,6 +83,8 @@ const config = {
 ## Publish the ServerUsage workbook
 In order to get a user's usage data, a Tableau Workbook was created that makes queries against your Tableau Server's Postgres Repository.  Open the included workbook (*/server-usage/ServerUsage.twb*) and change the connection settings to point to your Tableau Server.  This is similar to how the admin views work within Tableau Server.  You can find help getting this setup, by following the instructions [here](https://onlinehelp.tableau.com/current/server/en-us/perf_collect_server_repo.htm).  When you publish this workbook make sure it's available to the *tableau user* specified in your config.js file.  When this application loads it makes an API call to query for the data within this workbook, and those API calls are made under the context of the *tableau user*.  To ensure security, the web app's logged-in user's id and the site id are passed as a filter parameters in the API call.  
 
+Depending on how large your user base is, you will likely want to create switch this workbook's data source from a live connection to a Tableau Extract.  This will reduce the query load on your Tableau Repository, and keep Tableau Server running smoothly.
+
 Please note that the custom sql provided in this workbook was developed using Tableau Server 2019.2, and different versions of Tableau Server may have slightly different schemas.  If your workbook gives you a sql error, you may need to adjust the custom sql (found at server-usage/repository.sql) and replace the workbook's data source. 
 
 ## Start the application
