@@ -17,12 +17,12 @@ This step is first, as it requires a Tableau Server restart.
 This is optional, as it's only used to make downloading the source code easier.  You can follow the instructions on [https://git-scm.com/downloads](https://git-scm.com/downloads) to download and install for either windows/mac/linux.
 
 ### Node / Yarn
-Node is a JavaScript runtime, that we're using to run the web app.  Yarn is a package manager, which helps manage what dependencies are required for softare projects.  We need both of them in order to setup/run this web application.
+Node is a JavaScript runtime, that we're using to run the web app.  Yarn is a package manager, which helps manage what dependencies are required for software projects.  We need both of them in order to setup/run this web application.
 
 Please the follow the instructions for both [Node](https://nodejs.org/en/download/) and [Yarn](https://yarnpkg.com/lang/en/docs/install/) before continuing.
 
 ## Download the web app's repository
-Open up Termincal (mac) or the Command Prompt (windows) and change the directory to wherever you want to save these files.  Then use the commands below to download this web app's source code and move into that directory.
+Open up Terminal (mac) or the Command Prompt (windows) and change the directory to wherever you want to save these files.  Then use the commands below to download this web app's source code and move into that directory.
 ```
 # Clone the repository
 git clone https://github.com/takashibinns/tableau-sample-web-app
