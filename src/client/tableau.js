@@ -172,23 +172,23 @@ export const tabGetTicket = (trusted) => {
 export const tabGetViews = (settings, session) => {
 
 	//	Define some config for this method
-	var config = {
+	const config = {
 		'fields': 'id,name,contentUrl,updatedAt,usage,sheetType,workbook.id,workbook.name,owner.email,owner.fullName,project.id,project.name,project.description',
-		'sortBy':'hitsTotal:desc',
+		'sortBy': 'hitsTotal:desc',
 		'pageSize': 100
-	}
+	};
 
 	//	Define the URL for getting the first chunk of views
-	var viewUrl = baseUrl(settings,session) + '/views?fields=' + config.fields
+	const viewUrl = baseUrl(settings,session) + '/views?fields=' + config.fields
 											+ '&sortBy=' + config.sortBy
 											+ '&pageSize=' + config.pageSize
 											+ '&pageNumber=1';
 	
 	//	Define the URL for getting the user's favorite views
-	var favoritesUrl = baseUrl(settings,session) + '/favorites/' + session.user.id;
+	const favoritesUrl = baseUrl(settings,session) + '/favorites/' + session.user.id;
 
 	//	Define the request headers
-	var myHeaders = Object.assign({}, headers);
+	let myHeaders = Object.assign({}, headers);
 	myHeaders[tokenName] = session.apiKey;
 
 	// Define option
@@ -270,7 +270,12 @@ export const tabGetViews = (settings, session) => {
 			}
 
 			//	Have we seen this project yet?
-			if (!projectDictionary[view.project.id]) {
+			const projectId = (view.project || {}).id;
+			if (!projectId){
+				//	This is in a personal space (not a real project)
+				return;
+			}
+			if ( projectId && !projectDictionary[projectId]) {
 				//	Nope, mark this project
 				projectDictionary[view.project.id] = view.project.name;
 				projects.push({ 'value':view.project.id, 'label': view.project.name})
