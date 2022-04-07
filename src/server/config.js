@@ -9,7 +9,7 @@ const config = {
 	//	This section of config settings is shared client side (browser)
 	'public': {
 		//	What is the URL of your Tableau Server? This should include protocol (http:// or https//) and port (if not 80 or 443)
-		'server': 'https://healthcare.tableau.com',
+		'server': 'https://<my-tableau-server-url>',
 		//	What is the name of the site should we authenticate to?
 		'site': '',
 		//	What version of the REST API should we use?
@@ -29,16 +29,16 @@ const config = {
 	'private': {
 
 		//	Encryption key (server side only, you can change this to any string value)
-		'cryptoKey': 'MySecureKey',
+		'cryptoKey': 'SomeKindOfSecureKey',
 		//	Tableau Server Admin Credentials (used to fetch data from published workbooks)
-		'adminUser': 'tbinns',
-		'adminPassword': 'tableau',
+		'adminUser': 'adminUsername',
+		'adminPassword': 'adminPassword',
 		//	Name of the workbook, that contains server data (recently viewed content, peer groups, comments, etc)
 		'adminWorkbook': 'ServerUsage',
 		//	Connected App secrets
-		'connectedAppSecretId': 'd7487022-322f-4f7e-bc48-74ab4e9af8e7',
-		'connectedAppSecretValue': 'd9fEZXhKNw1RfxnvLNEidfTvDUetxB+FVRrcSxi87nc=',
-		'connectedAppClientId': '3508cdf9-6147-47dc-85af-10397d2c149e',
+		'connectedAppSecretId': '<connected-app-secret-id>',
+		'connectedAppSecretValue': '<connected-app-secret-value>',
+		'connectedAppClientId': '<connected-app-client-id>',
 	}
 };
 
