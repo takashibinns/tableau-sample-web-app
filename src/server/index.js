@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const url = require('url');  
 const axios = require('axios');
 const querystring = require('querystring');  
+const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
 const CryptoJS = require("crypto-js");
 const parse = require('csv-parse/lib/sync');
 const os = require('os');
@@ -26,6 +28,39 @@ app.get('/test', (req,res) => {
 	})
 })
 */
+
+app.get('/api/tableau/jwt', (req, res) => {
+
+	//	Decript the username, using our secure key
+	var reb64 = CryptoJS.enc.Hex.parse(req.query.trusted);
+	var bytes = reb64.toString(CryptoJS.enc.Base64);
+	var decrypt = CryptoJS.AES.decrypt(bytes, tableauConfig.private.cryptoKey);
+	var username = decrypt.toString(CryptoJS.enc.Utf8);
+
+	//	Create a JWT token
+	let jwtSecretKey = tableauConfig.private.connectedAppSecretValue
+	let now = new Date()
+	let expirationDate = (now.getTime() / 1000) + (5 * 60)	//	5 minutes from now
+	let payload = {
+        'iss': tableauConfig.private.connectedAppClientId,	//	Connected App's ID
+        'exp': expirationDate,		
+		'jti': uuidv4(),			//	Unique identifier for this JWT
+		'aud': 'tableau',			//	constant value
+		'sub': username,			//	User to authenticate as
+		'scp': ['tableau:views:embed', 'tableau:metrics:embed']	//	Scopes
+    }
+	let options = {
+		'header': {
+			'kid': tableauConfig.private.connectedAppSecretId,
+			'iss': tableauConfig.private.connectedAppClientId,
+		},
+		'algorithm': 'HS256'
+	}
+  
+    const token = jwt.sign(payload, jwtSecretKey, options);
+
+	res.send({'token':token})
+})
 
 //	API endpoint for fetching this app's configuration settings
 app.get('/api/tableau/config', (req, res) => res.send( tableauConfig.public ));

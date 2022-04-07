@@ -168,6 +168,23 @@ export const tabGetTicket = (trusted) => {
 	})
 }
 
+//	Fetch Tableau trusted ticket from this server
+export const tabGetToken = (trusted) => {
+
+	//	Define the api call url and query parameters
+	var url = '/api/tableau/jwt?trusted=' + trusted,
+		params = {
+			'trusted': trusted
+		}
+
+	//	Make the API call
+	return axios.get(url).then (response => {
+		return {
+			'token': response.data.token
+		};
+	})
+}
+
 //	Query for user's views
 export const tabGetViews = (settings, session) => {
 

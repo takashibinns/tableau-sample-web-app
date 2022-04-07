@@ -7,9 +7,10 @@ import {Timeline, TimelineBlip, TimelineEvent} from 'react-event-timeline';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots, faArrowCircleUp, faFileImage, faFilePdf, faFileExcel } from '@fortawesome/free-solid-svg-icons'
 import ViewDenied from './ViewDenied';
-import { tabGetTicket, tabGetUsageData, tabGetViewData } from '.././tableau';
+import { tabGetTicket, tabGetToken, tabGetUsageData, tabGetViewData } from '.././tableau';
 import { objectIsEmpty } from '.././utility';
 import LoadingImage from '../../../public/loading.svg';
+import {TableauViz} from '.././tableau.embedding.3.0.0-alpha.23.min.js'
 import './View.css';
 
 //	Define some constants for this component
@@ -24,11 +25,30 @@ export default class View extends Component {
 	constructor(props){
 		super(props);
 
+		//	Do we need an SSO token to authenticate to Tableau?
+		if (this.props.tableauSettings) {
+
+			let thisComponent = this;
+
+			//	Using connected apps?
+			if (this.props.tableauSettings.singleSignOn == 'ConnectedApp'){
+				const token = tabGetToken(this.props.tableauSession.user.trusted).then( response =>{
+					thisComponent.setState({'authToken': response.token});
+				})
+			} else if (this.props.tableauSettings.singleSignOn == 'TrustedTicket'){
+				const token = tabGetTicket(this.props.tableauSession.user.trusted).then( response =>{
+					thisComponent.setState({'trustedTicket': response.ticket});
+				})
+			}
+
+		}
+
 		//	Define the state of this component
 		this.state = {
 			tableauSession: this.props.tableauSession,
 			tableauSettings: this.props.tableauSettings,
 			trustedTicket: null,
+			authToken: null,
 			viewId: this.props.viewId,
 			windowHeight: 0,
 			view: null,
@@ -55,7 +75,6 @@ export default class View extends Component {
 
 		//	Bind functions to this component
 		this.renderTableau = this.renderTableau.bind(this)
-		this.getTrustedTicket = this.getTrustedTicket.bind(this)
 		this.getViewFullUrl = this.getViewFullUrl.bind(this)
 		this.showComments = this.showComments.bind(this)
 		this.handleCloseComments = this.handleCloseComments.bind(this)
@@ -63,62 +82,47 @@ export default class View extends Component {
 		this.goBack = this.goBack.bind(this)
 	}
 
-	//	Get the trusted ticket for SSO
-	getTrustedTicket(){
-
-		//	Save a reference to the component
-		var thisComponent = this;
-
-		//	Get a trusted ticket from tableau server
-		return tabGetTicket(this.state.tableauSession.user.trusted).then( response =>{
-			
-			//	Update the state w/ our new ticket
-			thisComponent.setState({
-				'trustedTicket': response.ticket
-			})
-		})
-	}
-
 	//	Create the url for the view (including site and trusted ticket path)
 	getViewFullUrl(view){
 
-		//	Are we using trusted tickets for SSO?
-		var useTickets = this.state.tableauSettings.useTrustedTicketSSO;
-		if (useTickets) {
-	
-			//	Define the base url
-			var baseUrl = this.state.tableauSettings.server + '/trusted/' + this.state.trustedTicket;
+		//	Embed URL specific to a site
+		const siteSpecificUrl = this.state.tableauSession.site.name.length==0 ? view.links.embed : '/t/' + this.state.tableauSession.site.name + view.links.embed;
 
-			//	Check for a trusted ticket
-			if (this.state.trustedTicket) {
+		//	Are we using single sign on?
+		var ssoType = this.state.tableauSettings.singleSignOn;
+		if (ssoType) {
 
-				//	Check to see if we've logged into a site
-				if (this.state.tableauSession.site.name.length==0) {
-					//	Using default site
-					return baseUrl + view.links.embed;
+			if (ssoType == 'TrustedTicket') {
+		
+				//	Define the base url
+				var baseUrl = this.state.tableauSettings.server + '/trusted/' + this.state.trustedTicket;
+
+				//	Check for a trusted ticket
+				if (this.state.trustedTicket) {
+
+					//	Return the embedded view's url
+					return baseUrl + siteSpecificUrl;
+					
 				} else {
-					//	Not the default site
-					return baseUrl + '/t/' + this.state.tableauSession.site.name + view.links.embed;
-				}
-			} else {
 
-				//	Not yet authorized, get a ticket but return null for now
-				this.getTrustedTicket();
-				return null;
+					//	Not yet authorized, waiting for a ticket still
+					return null;
+				}
+			} else if (ssoType == 'ConnectedApp') {
+
+				//	Is there a valid jwt token already 
+				if (!this.state.authToken) {
+					//	No token yet, don't try and render anything
+					return null;
+				} else {
+					//	Received an auth token, return the url
+					return this.state.tableauSettings.server + siteSpecificUrl
+				}
 			}
 		} else {
 
-			//	Using a different form of SSO, just make a regular embed url
-
-			//	Check to see if we've logged into a site
-			if (this.state.tableauSession.site.name.length==0) {
-				//	Using default site
-				return this.state.tableauSettings.server + view.links.embed;
-			} else {
-				//	Not the default site
-				return this.state.tableauSettings.server + '/t/' + this.state.tableauSession.site.name + view.links.embed;
-			}
-
+			//	Just return the url for the view
+			return this.state.tableauSettings.server + siteSpecificUrl
 		}
 	}
 
@@ -127,6 +131,34 @@ export default class View extends Component {
 
 		//	Save a reference to this component
 		var thisComponent = this;
+
+		//	Function to create and return a viz object
+		function createViz(containerId, url, options) {
+
+			//  Create a viz object and embed it in the container div.
+			let viz = new TableauViz();
+
+			//	Define the viz url
+			viz.src = url;
+
+			//	Define the viz embed options
+			viz.toolbar = options.toolbar;
+			viz.hideTabs = options.hideTabs;
+			viz.width = options.width;
+			viz.height = options.height;
+
+			//	Use Connected App token?
+			if (thisComponent.state.authToken) {
+				viz.token = thisComponent.state.authToken
+			}
+
+			//	Add event handlers to viz
+			viz.addEventListener('onFirstInteraction', options.onFirstInteractive)
+			viz.addEventListener('onFirstVizSizeKnown', options.onFirstVizSizeKnown)
+
+			//	Return the viz object
+			return viz;
+		}
 
 		//	Make sure there's a view passed to this component
 		if (view && !view.error) {
@@ -142,7 +174,7 @@ export default class View extends Component {
 			var url = this.props.view ? this.getViewFullUrl(this.props.view) : null,
 	            options = {
 	                hideTabs: true,
-	                hideToolbar: true,
+	                toolbar: 'hidden',
 	                height: newHeight + 'px',
 	                width: '100%',
 	                onFirstInteractive: function (event) {
@@ -178,34 +210,24 @@ export default class View extends Component {
 
 		        	} else {
 
-		        		//	Its a new viz, need to remove the old one
-		        		this.state.viz.dispose();
-
 		        		// Create a viz object and embed it in the container div.
-		        		var viz = new this.props.tableauJs.Viz(containerDiv, url, options);
+		        		var viz = createViz(containerId, url, options); 
 				        this.setState({
 				        	'viz': viz,
 				        	'view': view
 			        	})
-
 		        	}
 		        } else {
 
 		        	//	No, this is a brand new viz
-		            //  Create a viz object and embed it in the container div.
-		            var viz = new this.props.tableauJs.Viz(containerDiv, url, options);
+		            var viz = createViz(containerId, url, options); 
+					document.getElementById(containerId).appendChild(viz); 
 			        this.setState({
 			        	'viz': viz,
 			        	'view': view
 		        	})
 			    }
-	        } else {
-
-	        	//	Need to get a trusted ticket, before we can load the viz
-	        	this.getTrustedTicket();
-	        }
-
-	        
+	        } 
     	}
 	}
 
@@ -257,6 +279,7 @@ export default class View extends Component {
 
 	//	Detect the user's browser dimensions, and set to the state
 	componentWillMount(){
+		//	Determine the window size
 		this.setState({ windowHeight: window.innerHeight });
       }
 
@@ -268,13 +291,6 @@ export default class View extends Component {
 	//	Properties passed to this component have updated, try rendering again
 	componentDidUpdate(){
 		this.renderTableau(this.props.view,'update') 
-	}
-
-	//	Release the viz from memory, when this component unmounts
-	componentWillUnmount(){
-		if (this.state.viz) {
-			this.state.viz.dispose();
-		}
 	}
 	
 	//	Render the placeholder HTML for this viz

@@ -82,7 +82,6 @@ export default class App extends Component {
     //  Bind functions to this component
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.loadTableauJS = this.loadTableauJS.bind(this);
   }
 
   //  Handle lifted state
@@ -112,34 +111,6 @@ export default class App extends Component {
     })
   }
 
-  //  load tableau.js
-  loadTableauJS(){
-
-    //  Create a reference to this
-    var thisComponent = this;
-
-    //  Determine the URL to find the JS script
-    var url = this.state.tableauSettings.server +  '/javascripts/api/tableau-2.2.2.min.js';
-    //var url = 'https://public.tableau.com/javascripts/api/tableau-2.2.2.min.js';
-
-    //  Create a script tag to load the JS library
-    var script = document.createElement("script");
-    script.src = url;
-    script.type = "text/javascript";
-
-    //  Add a handler to run, once the library has loaded
-    script.onload = function(event) {
-      
-      //  TableauJS loaded, save a refernce to the tableau object
-      thisComponent.setState({
-        'tableauJs': window.tableau
-      })
-    }
-    
-    //  Add the script element to the page
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-
   //  When the application loads, get the configuration settings from the web app and initialize Tableau.js
   componentDidMount() {
 
@@ -151,8 +122,6 @@ export default class App extends Component {
         //  Update the state
         this.setState( { tableauSettings: settings} ) 
         
-        //  Download the Tableau JS library, now that we know where the Tableau server is
-        this.loadTableauJS();
       })
   }
 
