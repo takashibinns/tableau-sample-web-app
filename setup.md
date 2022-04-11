@@ -51,8 +51,8 @@ const config = {
     //  How many seconds until an authentication token is expired? default setting on TS is 240 minutes
     'apiTokenExpiration': 240,
     
-    //  Should this application provide SSO for embedded views? set to false if you have already setup SSO on your tableau server
-    'useTrustedTicketSSO': false,
+    //  Should this application provide SSO for embedded views? set to either 'ConnectedApp' or 'TrustedTicket' if needed, or null if using a different authentication method
+    'singleSignOn': 'ConnectedApp',
     
     //  Title of this web application
     'appName': 'My Healthcare Portal',
@@ -76,6 +76,11 @@ const config = {
     
     //  Name of the workbook, that contains server data (recently viewed content, peer groups, comments, etc)
     'adminWorkbook':'ServerUsage',
+    
+    //	Connected App secret details (from Tableau Server)
+		'connectedAppSecretId': '<connected-app-secret-id>',
+		'connectedAppSecretValue': '<connected-app-secret-value>',
+		'connectedAppClientId': '<connected-app-client-id>',
   }
 }
 ```
