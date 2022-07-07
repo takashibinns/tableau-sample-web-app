@@ -25,7 +25,7 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.5.1",
     "mdbreact": "^5.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "nodemon": "^2.0.15",
     "nuka-carousel": "^4.5.6",
     "react": "^16.5.2",
